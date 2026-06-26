@@ -1,0 +1,17 @@
+{
+    "name": "SoundSystem_Assembly",
+    "rootNamespace": "",
+    "references": [
+        "ObjectPool",
+        "EventChannel_Assembly"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

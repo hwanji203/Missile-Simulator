@@ -1,0 +1,15 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/HwanLib/GGMLib/ObjectPool/Editor/ObjectPoolEditor.uss?fileID=7433441132597879392&amp;guid=897f3824b9818e844823c149f969352e&amp;type=3#ObjectPoolEditor"/>    <ui:VisualElement name="Container" __unity-builder-selected-element="" style="flex-grow: 1;">
+        <ui:VisualElement name="TopBar" __unity-builder-selected-element="" class="top-bar">
+            <ui:Button text="New Item" name="CreateBtn"/>
+        </ui:VisualElement>
+        <ObjectPool.Editor.GGMSplitView fixed-pane-initial-dimension="250">
+            <ui:VisualElement name="LeftPanel" style="flex-grow: 1;">
+                <ui:ScrollView name="ItemView" style="flex-grow: 1;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="RightPanel" style="flex-grow: 1;">
+                <ui:VisualElement name="InspectorView" style="flex-grow: 1;"/>
+            </ui:VisualElement>
+        </ObjectPool.Editor.GGMSplitView>
+    </ui:VisualElement>
+</ui:UXML>
