@@ -39,9 +39,12 @@ namespace Core
 
         private IEnumerator LoadOp(string name, int idx)
         {
-            yield return string.IsNullOrEmpty(name)
+            AsyncOperation op = string.IsNullOrEmpty(name)
                 ? SceneManager.LoadSceneAsync(idx)
                 : SceneManager.LoadSceneAsync(name);
+
+            while (!op.isDone)
+                yield return null;
         }
     }
 }

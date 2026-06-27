@@ -96,7 +96,6 @@ namespace UI.Popup.Setting
         private void SetMixer(string exposedParam, float linear01)
         {
             if (AudioMixer == null) return;
-            Debug.Log(exposedParam + linear01);
             float db = linear01 <= 0.0001f ? -80f : Mathf.Log10(linear01) * 20f;
             AudioMixer.SetFloat(exposedParam, db);
         }

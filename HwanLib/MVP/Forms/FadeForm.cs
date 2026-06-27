@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using MVP.Forms.Module.Fade;
 using MVP.System.BaseMVP;
 using MVP.System.BaseMVP.Form;
@@ -17,6 +18,14 @@ namespace MVP.Forms
         [Tooltip("preset 미전달 시 사용할 기본 전환 프리셋(Fade 등).")]
         [SerializeField] private TransitionPreset defaultPreset;
 
+        [Header("로딩 스피너 (선택)")]
+        [Tooltip("화면이 다 덮인 동안 빙글빙글 돌릴 로딩 스피너. 비우면 스피너 없음. FadeForm 자식으로 두고 평소엔 꺼둔다.")]
+        [SerializeField] private RectTransform spinner;
+        [Tooltip("스피너 회전 속도(초당 도). 양수=시계방향, 음수=반시계방향.")]
+        [SerializeField] private float spinnerDegPerSec = 360f;
+
+        private Tween _spinTween;
+
         private static readonly int CutoffID   = Shader.PropertyToID("_Cutoff");
         private static readonly int RectSizeID = Shader.PropertyToID("_RectSize");
         private static readonly int AngleID    = Shader.PropertyToID("_Angle");
@@ -30,6 +39,35 @@ namespace MVP.Forms
         public void Initialize()
         {
             _targetImage = GetComponent<Image>();
+            if (spinner) spinner.gameObject.SetActive(false); // 평소엔 숨김.
+        }
+
+        // 화면이 다 덮인 뒤(FadeOut 완료) 호출. 스피너를 켜고 무한 회전.
+        // timeScale=0(시간정지)에서도 돌도록 SetUpdate(true)로 unscaled 구동.
+        private void ShowSpinner()
+        {
+            if (!spinner) return;
+            _spinTween?.Kill();
+            spinner.gameObject.SetActive(true);
+            spinner.localRotation = Quaternion.identity;
+
+            float dir = spinnerDegPerSec >= 0f ? -1f : 1f; // 양수=시계방향(-Z)
+            float dur = 360f / Mathf.Max(Mathf.Abs(spinnerDegPerSec), 1f);
+            _spinTween = spinner
+                .DOLocalRotate(new Vector3(0f, 0f, 360f * dir), dur, RotateMode.FastBeyond360)
+                .SetEase(Ease.Linear)
+                .SetLoops(-1)
+                .SetRelative(true)
+                .SetUpdate(true);
+        }
+
+        // FadeIn 시작 직전 호출. 회전 멈추고 스피너 숨김.
+        private void HideSpinner()
+        {
+            if (!spinner) return;
+            _spinTween?.Kill();
+            _spinTween = null;
+            spinner.gameObject.SetActive(false);
         }
 
         // 0(투명) → 1(덮음). preset의 머티리얼로 교체 후 보간.
@@ -43,11 +81,14 @@ namespace MVP.Forms
             if (preset.flipAngleOnIn)
                 inst.SetFloat(AngleID, preset.material.GetFloat(AngleID));
             yield return AnimateCutoff(inst, 0f, 1f, preset.duration / 2f, preset.easingCurve);
+
+            ShowSpinner(); // 화면이 다 덮였으니 스피너 시작(중간점 동안 회전).
         }
 
         // 1(덮음) → 0(투명). FadeOut과 같은 preset 인스턴스 사용.
         public IEnumerator FadeIn(TransitionPreset preset)
         {
+            HideSpinner(); // 걷기 시작 전 스피너 정지.
             preset ??= defaultPreset;
             Material inst = GetInstance(preset);
             // 방향성 효과: 들어올 때 _Angle을 +π 해서 되돌아가지 않고 같은 방향으로 계속 닦아 나간다.
@@ -101,6 +142,7 @@ namespace MVP.Forms
 
         private void OnDestroy()
         {
+            _spinTween?.Kill();
             foreach (Material inst in _instances.Values)
                 if (inst != null) Destroy(inst);
             _instances.Clear();

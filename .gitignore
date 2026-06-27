@@ -1,0 +1,80 @@
+### Windows
+# Windows thumbnail cache files
+Thumbs.db
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows shortcuts
+*.lnk
+
+### JetBrains
+# JetBrains IDE directory
+.idea/
+
+# CMake build directories
+cmake-build-*/
+
+# File-based project format
+*.iws
+*.iml
+
+# IntelliJ build output
+out/
+_Shaders.meta
+_GameModules.meta
+_Graphics.meta
+_Scripts.meta
+BTM_Assets.meta
+Controls.cs
+Controls.cs.meta
+Controls.inputactions
+Controls.inputactions.meta
+Customizable Skybox.meta
+docs.meta
+GuidanceLine.meta
+Heat - Complete Modern UI.meta
+Hovl Studio.meta
+HwanLib.meta
+IgniteCoders.meta
+ithappy.meta
+Loading Effect.meta
+LowPoly Environment Pack.meta
+Plugins.meta
+PowerUp.meta
+Procedural Water Shader.meta
+ProjectSettings.meta
+Resources.meta
+Scenes.meta
+Settings.meta
+SpecialSkillsEffectsPack.meta
+TextMesh Pro.meta
+Toby Fredson.meta
+Vefects.meta
+IgniteCoders
+Vefects
+Toby Fredson
+TextMesh Pro
+SpecialSkillsEffectsPack
+Settings
+Scenes
+Resources
+ProjectSettings
+Procedural Water Shader
+PowerUp
+Plugins
+LowPoly Environment Pack
+Loading Effect
+ithappy
+Hovl Studio
+Heat - Complete Modern UI
+GuidanceLine
+docs
+Customizable Skybox
+BTM_Assets
+_Graphics
+_GameModules
+_Shaders
